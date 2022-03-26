@@ -1,9 +1,14 @@
 import React from "react";
+import Header from "../components/Header";
+import NewsContainer from "../components/NewsContainer";
 import '../assets/styles/App.scss';
 
 const Home = () => {
     return(
-        <h1>HOLA POBO k haciendo</h1>
+        <>
+            <Header/>
+            <NewsContainer/>
+        </>
     )
 }
 
