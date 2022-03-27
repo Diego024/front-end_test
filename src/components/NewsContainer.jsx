@@ -2,16 +2,9 @@ import React from 'react'
 import News from './News'
 import '../assets/styles/NewsContainer.scss'
 
-const NewsContainer = () => (
+const NewsContainer = ({children}) => (
     <section className='news-container'>
-        <News/>
-        <News/>
-        <News/>
-        <News/>
-        <News/>
-        <News/>
-        <News/>
-        <News/>
+        {children}
     </section>
 )
 

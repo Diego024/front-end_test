@@ -27,7 +27,7 @@ const Header = () => {
                 <h1 className="header-title">HACKER NEWS</h1>
             </header>
             <nav className="tabs-container">
-                <button className="tabs-links" id="allLink" onClick={allLinkClickListener}>All</button>
+                <button className="tabs-links active" id="allLink" onClick={allLinkClickListener}>All</button>
                 <button className="tabs-links" id="favesLink" onClick={favesLinkClickListener}>My faves</button>
             </nav>
             <div className="filter-container">
