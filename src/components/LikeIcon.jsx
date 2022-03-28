@@ -24,6 +24,9 @@ const LikeIcon = props => {
             props.getSavedNews({ savedNews:savedNews })
             window.localStorage.setItem("savedNews", JSON.stringify(savedNews))
         }
+        if(window.localStorage.getItem('currentOption') == 'savedNews') {
+            window.location.reload(false);
+        }
     }
 
     const deleteNew = story => {
@@ -34,6 +37,9 @@ const LikeIcon = props => {
             })
             props.getSavedNews({ savedNews:savedNews })
             window.localStorage.setItem("savedNews", JSON.stringify(savedNews))
+        }
+        if(window.localStorage.getItem('currentOption') == 'savedNews') {
+            window.location.reload(false);
         }
     }
 

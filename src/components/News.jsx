@@ -8,7 +8,14 @@ const News = props => {
     const { created_at, story_title, story_url, author, story_id } = props
     const story = { created_at, story_title, story_url, author, story_id }
 
-    console.log(story)
+    const getFormatCreatedAt = (createdAt) => {
+        let hoursAgo = Math.floor( ((new Date() - new Date(createdAt)) / 1000) / 3600);
+        if (hoursAgo > 0) {
+            return hoursAgo + ' hours ago by author' 
+        } else {
+            return null
+        }
+    }
 
     return (
         <>
@@ -17,7 +24,7 @@ const News = props => {
                     <div className="news-info_container">
                         <div className='news-time_container'>
                             <img className="" src={timeIcon} alt="time icon"/>
-                            <p className='news-story_time'>2 {created_at} by {author}</p>
+                            <p className='news-story_time'>{getFormatCreatedAt(created_at)} by {author}</p>
                         </div>
                         <h4 className='news-story_title'>{story_title}</h4>
                     </div>

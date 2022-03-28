@@ -22,7 +22,7 @@ const Home = ({ news, savedNews ,currentOption }) => {
                     }
                 </NewsContainer>
             }
-            { savedNews.length > 0 && currentOption == 'savedNews' &&
+            { savedNews && currentOption == 'savedNews' &&
                 <NewsContainer>
                     {savedNews.map( news => 
                             <News

@@ -2,28 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { setCurrentOption } from '../actions'
 import SelectWithIcons from "./SelectWithIcons";
+import TabLinks from "./TabLinks";
 import '../assets/styles/Header.scss'
 
 const Header = props => {
-
-    const allLinkClickListener = () => {
-        const allLink = document.getElementById('allLink')
-        const favesLink = document.getElementById('favesLink')
-        
-        allLink.classList.add('active')
-        favesLink.classList.remove('active')
-        props.setCurrentOption({currentOption: 'all'})
-    }
-
-    
-    const favesLinkClickListener = () => {
-        const allLink = document.getElementById('allLink')
-        const favesLink = document.getElementById('favesLink')
-        
-        allLink.classList.remove('active')
-        favesLink.classList.add('active')
-        props.setCurrentOption({currentOption: 'savedNews'})
-    }
 
     return (
         <>
@@ -31,8 +13,7 @@ const Header = props => {
                 <h1 className="header-title">HACKER NEWS</h1>
             </header>
             <nav className="tabs-container">
-                <button className="tabs-links active" id="allLink" onClick={allLinkClickListener}>All</button>
-                <button className="tabs-links" id="favesLink" onClick={favesLinkClickListener}>My faves</button>
+                <TabLinks/>
             </nav>
             <div className="filter-container">
                 <SelectWithIcons/>
