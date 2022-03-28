@@ -1,4 +1,4 @@
-import { GET_NEWS, GET_FILTER, GET_SAVED_NEWS, SET_CURRENT_OPTION } from "../actions";
+import { GET_NEWS, SET_FILTER, GET_SAVED_NEWS, SET_CURRENT_OPTION, SET_PAGE } from "../actions";
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -12,7 +12,7 @@ const reducer = (state, action) => {
                 ...state,
                 savedNews: [action.payload.savedNews]
             }
-        case GET_FILTER:
+        case SET_FILTER:
             return {
                 ...state,
                 filter: action.payload.filter
@@ -21,6 +21,11 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 currentOption: action.payload.currentOption
+            }
+        case SET_PAGE:
+            return {
+                ...state,
+                page: action.payload.page
             }
         default:
             return state

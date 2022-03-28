@@ -41,7 +41,9 @@ const mapStateToProps = state => {
     return {
         news: state.news[0],
         savedNews: state.savedNews,
+        filter: state.filter,
         currentOption: state.currentOption,
+        page: state.page
     }
 }
 

@@ -5,18 +5,28 @@ import reactIcon from '../assets/icons/react-icon.png'
 import vueIcon from '../assets/icons/vue-icon.png'
 // REDUX
 import { connect } from 'react-redux'
-import { getNews, setFilter } from '../actions'
+import { getNews, setFilter, setPage } from '../actions'
 //API REQUEST
 import axios from 'axios'
-const ANGULAR_API_URL = 'https://hn.algolia.com/api/v1/search_by_date?query=angular&page=0'
-const REACT_API_URL = 'https://hn.algolia.com/api/v1/search_by_date?query=reactjs&page=0'
-const VUE_API_URL = 'https://hn.algolia.com/api/v1/search_by_date?query=vuejs&page=0'
 
 const SelectWithIcons = props => {
+    let currentPage = props.page
+    const ANGULAR_API_URL = 'https://hn.algolia.com/api/v1/search_by_date?query=angular&page=' + props.page
+    const REACT_API_URL = 'https://hn.algolia.com/api/v1/search_by_date?query=reactjs&page=' + props.page
+    const VUE_API_URL = 'https://hn.algolia.com/api/v1/search_by_date?query=vuejs&page=' + props.page
+
     //LOADING THE NEWS OF THE PRESELECTED FILTER
     useEffect(() => {
         (props.filter) ? getNews(props.filter) : getNews('Angular')
     }, []);
+
+    window.onscroll = () => {
+        if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
+            props.setPage({ page: props.page + 1 })
+            currentPage++
+            getNews(props.filter)
+        }
+    }
 
     const dropDownClickListener = () => {
         const dropdown = document.querySelector('.dropdown')
@@ -28,6 +38,8 @@ const SelectWithIcons = props => {
             if (props.filter != filter) {
                 window.localStorage.setItem("filter", filter)
                 props.setFilter({ filter: filter })
+                props.setPage({ page: 0 })
+                currentPage = 0
             }
         } catch (error) {
             console.error(error)
@@ -39,15 +51,15 @@ const SelectWithIcons = props => {
         persistFilter(filter)
         switch (filter) {
             case 'Angular':
-                if (props.filter != filter || props.news.length == 0)
+                if (props.filter != filter || props.news.length == 0 || currentPage > 0)
                     getListNews(ANGULAR_API_URL)
                 break;
             case 'React':
-                if (props.filter != filter || props.news.length == 0)
+                if (props.filter != filter || props.news.length == 0 || currentPage > 0)
                     getListNews(REACT_API_URL)
                 break;
             case 'Vue':
-                if (props.filter != filter || props.news.length == 0)
+                if (props.filter != filter || props.news.length == 0 || currentPage > 0)
                     getListNews(VUE_API_URL)
                 break;
             default:
@@ -57,8 +69,12 @@ const SelectWithIcons = props => {
 
     const getListNews = API_URL => {
         axios.get(API_URL)
-            .then(news => {
-                props.getNews({ news: news.data.hits })
+            .then(newsFromApi => {
+                if( currentPage == 0 ) {
+                    props.getNews({ news: newsFromApi.data.hits })
+                } else {
+                    props.getNews({ news: [...props.news[0] || [], ...newsFromApi.data.hits] })
+                }
             })
             .catch(error => {
                 alert('Error fetching angular news' + error)
@@ -90,13 +106,15 @@ const SelectWithIcons = props => {
 const mapStateToProps = state => {
     return {
         news: state.news,
-        filter: state.filter
+        filter: state.filter,
+        page: state.page
     }
 }
 
 const mapDispatchToProps = {
     getNews,
-    setFilter
+    setFilter,
+    setPage,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectWithIcons)

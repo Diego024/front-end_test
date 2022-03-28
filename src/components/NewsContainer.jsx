@@ -1,5 +1,4 @@
 import React from 'react'
-import News from './News'
 import '../assets/styles/NewsContainer.scss'
 
 const NewsContainer = ({children}) => (
