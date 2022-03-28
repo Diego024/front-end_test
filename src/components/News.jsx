@@ -1,13 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import timeIcon from '../assets/icons/time.svg'
-import like from '../assets/icons/like.svg'
-import liked from '../assets/icons/liked.svg'
+import LikeIcon from './LikeIcon'
 import '../assets/styles/News.scss'
 
 const News = props => {
 
-    const { created_at, story_title, story_url, author } = props
+    const { created_at, story_title, story_url, author, story_id } = props
+    const story = { created_at, story_title, story_url, author, story_id }
+
+    console.log(story)
 
     return (
         <>
@@ -22,7 +23,7 @@ const News = props => {
                     </div>
                 </a>
                 <div className="news-favorite_container">
-                    <img className="" src={like} alt="liked icon"/>
+                    <LikeIcon story={story}/>
                 </div>
             </div>
         </>

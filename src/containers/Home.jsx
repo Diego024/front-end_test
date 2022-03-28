@@ -5,15 +5,26 @@ import NewsContainer from "../components/NewsContainer";
 import News from "../components/News";
 import '../assets/styles/App.scss';
 
-const Home = ({ news}) => {
+const Home = ({ news, savedNews ,currentOption }) => {
     let storyId = 0;
 
     return (
         <>
             <Header />
-            { news &&
+            { news && currentOption == 'all' &&
                 <NewsContainer>
                     {news.map( news => 
+                            <News
+                                key={++storyId}
+                                {...news}
+                            />
+                        )
+                    }
+                </NewsContainer>
+            }
+            { savedNews.length > 0 && currentOption == 'savedNews' &&
+                <NewsContainer>
+                    {savedNews.map( news => 
                             <News
                                 key={++storyId}
                                 {...news}
@@ -28,7 +39,9 @@ const Home = ({ news}) => {
 
 const mapStateToProps = state => {
     return {
-        news: state.news[0]
+        news: state.news[0],
+        savedNews: state.savedNews,
+        currentOption: state.currentOption,
     }
 }
 

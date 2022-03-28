@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import '../assets/styles/SelectWithIcons.scss'
 import angularIcon from '../assets/icons/angular-icon.png'
 import reactIcon from '../assets/icons/react-icon.png'
@@ -13,26 +13,44 @@ const REACT_API_URL = 'https://hn.algolia.com/api/v1/search_by_date?query=reactj
 const VUE_API_URL = 'https://hn.algolia.com/api/v1/search_by_date?query=vuejs&page=0'
 
 const SelectWithIcons = props => {
+    //LOADING THE NEWS OF THE PRESELECTED FILTER
+    useEffect(() => {
+        (props.filter) ? getNews(props.filter) : getNews('Angular')
+    }, []);
+
     const dropDownClickListener = () => {
         const dropdown = document.querySelector('.dropdown')
         dropdown.classList.toggle('active')
     }
 
+    const persistFilter = filter => {
+        try {
+            if (props.filter != filter) {
+                window.localStorage.setItem("filter", filter)
+                props.setFilter({ filter: filter })
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const getNews = filter => {
         document.querySelector('.textBox').value = filter;
-        props.setFilter({ filter: filter })
+        persistFilter(filter)
         switch (filter) {
             case 'Angular':
-                if (props.filter != filter) 
+                if (props.filter != filter || props.news.length == 0)
                     getListNews(ANGULAR_API_URL)
                 break;
             case 'React':
-                if (props.filter != filter) 
+                if (props.filter != filter || props.news.length == 0)
                     getListNews(REACT_API_URL)
                 break;
             case 'Vue':
-                if (props.filter != filter) 
+                if (props.filter != filter || props.news.length == 0)
                     getListNews(VUE_API_URL)
+                break;
+            default:
                 break;
         }
     }

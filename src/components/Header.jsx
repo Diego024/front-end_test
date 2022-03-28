@@ -1,8 +1,10 @@
 import React from "react";
+import { connect } from "react-redux";
+import { setCurrentOption } from '../actions'
 import SelectWithIcons from "./SelectWithIcons";
 import '../assets/styles/Header.scss'
 
-const Header = () => {
+const Header = props => {
 
     const allLinkClickListener = () => {
         const allLink = document.getElementById('allLink')
@@ -10,6 +12,7 @@ const Header = () => {
         
         allLink.classList.add('active')
         favesLink.classList.remove('active')
+        props.setCurrentOption({currentOption: 'all'})
     }
 
     
@@ -19,6 +22,7 @@ const Header = () => {
         
         allLink.classList.remove('active')
         favesLink.classList.add('active')
+        props.setCurrentOption({currentOption: 'savedNews'})
     }
 
     return (
@@ -37,4 +41,15 @@ const Header = () => {
     )
 }
 
-export default Header
+const mapStateToProps = state => {
+    return {
+        currentOption : state.currentOption,
+        savedNews: state.savedNews
+    }
+}
+
+const mapDispatchToProps = {
+    setCurrentOption,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)
