@@ -11,9 +11,7 @@ import axios from 'axios'
 
 const SelectWithIcons = props => {
     let currentPage = props.page
-    const ANGULAR_API_URL = 'https://hn.algolia.com/api/v1/search_by_date?query=angular&page=' + props.page
-    const REACT_API_URL = 'https://hn.algolia.com/api/v1/search_by_date?query=reactjs&page=' + props.page
-    const VUE_API_URL = 'https://hn.algolia.com/api/v1/search_by_date?query=vuejs&page=' + props.page
+    let query = 'angular'
 
     //LOADING THE NEWS OF THE PRESELECTED FILTER
     useEffect(() => {
@@ -48,27 +46,28 @@ const SelectWithIcons = props => {
 
     const getNews = filter => {
         document.querySelector('.textBox').value = filter;
+        query = filter.toLowerCase()
         persistFilter(filter)
         switch (filter) {
             case 'Angular':
                 if (props.filter != filter || props.news.length == 0 || currentPage > 0)
-                    getListNews(ANGULAR_API_URL)
+                    getListNews(query)
                 break;
-            case 'React':
+            case 'ReactJS':
                 if (props.filter != filter || props.news.length == 0 || currentPage > 0)
-                    getListNews(REACT_API_URL)
+                    getListNews(query)
                 break;
-            case 'Vue':
+            case 'VueJS':
                 if (props.filter != filter || props.news.length == 0 || currentPage > 0)
-                    getListNews(VUE_API_URL)
+                    getListNews(query)
                 break;
             default:
                 break;
         }
     }
 
-    const getListNews = API_URL => {
-        axios.get(API_URL)
+    const getListNews = query => {
+        axios.get('https://hn.algolia.com/api/v1/search_by_date?query=' + query + '&page=' + props.page)
             .then(newsFromApi => {
                 if (currentPage == 0) {
                     props.getNews({ news: newsFromApi.data.hits })
@@ -90,11 +89,11 @@ const SelectWithIcons = props => {
                     <img src={angularIcon} alt="Angular JS icon" />
                     Angular
                 </div>
-                <div onClick={() => getNews("React")}>
+                <div onClick={() => getNews("ReactJS")}>
                     <img src={reactIcon} alt="React JS icon" />
                     React
                 </div>
-                <div onClick={() => getNews("Vue")}>
+                <div onClick={() => getNews("VueJS")}>
                     <img src={vueIcon} alt="Vue JS icon" />
                     Vue
                 </div>
