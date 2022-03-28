@@ -21,7 +21,7 @@ const SelectWithIcons = props => {
     }, []);
 
     window.onscroll = () => {
-        if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
+        if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight) {
             props.setPage({ page: props.page + 1 })
             currentPage++
             getNews(props.filter)
@@ -70,7 +70,7 @@ const SelectWithIcons = props => {
     const getListNews = API_URL => {
         axios.get(API_URL)
             .then(newsFromApi => {
-                if( currentPage == 0 ) {
+                if (currentPage == 0) {
                     props.getNews({ news: newsFromApi.data.hits })
                 } else {
                     props.getNews({ news: [...props.news[0] || [], ...newsFromApi.data.hits] })
