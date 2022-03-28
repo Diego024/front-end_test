@@ -6,17 +6,6 @@ import '../assets/styles/Header.scss'
 const TabLinks = props => {
     let currentOption = window.localStorage.getItem('currentOption')
 
-    const allLinkClickListener = () => {
-        const allLink = document.getElementById('allLink')
-        const favesLink = document.getElementById('favesLink')
-        
-        allLink.classList.add('active')
-        favesLink.classList.remove('active')
-        props.setCurrentOption({currentOption: 'all'})
-        window.localStorage.setItem('currentOption', 'all')
-    }
-
-    
     const favesLinkClickListener = () => {
         const allLink = document.getElementById('allLink')
         const favesLink = document.getElementById('favesLink')
@@ -28,18 +17,29 @@ const TabLinks = props => {
         window.location.reload(false);
     }
     
-    if(currentOption === 'all') {
+    const allLinkClickListener = () => {
+        const allLink = document.getElementById('allLink')
+        const favesLink = document.getElementById('favesLink')
+        
+        allLink.classList.add('active')
+        favesLink.classList.remove('active')
+        props.setCurrentOption({currentOption: 'all'})
+        window.localStorage.setItem('currentOption', 'all')
+    }
+
+    console.log('Current option: ' + currentOption)
+    if(currentOption == 'savedNews') {
         return (
             <>
-                <button className="tabs-links active" id="allLink" onClick={allLinkClickListener}>All</button>
-                <button className="tabs-links" id="favesLink" onClick={favesLinkClickListener}>My faves</button>
+                <button className="tabs-links" id="allLink" onClick={allLinkClickListener}>All</button>
+                <button className="tabs-links active" id="favesLink" onClick={favesLinkClickListener}>My faves</button>
             </>
         )
     } else {
         return (
             <>
-                <button className="tabs-links" id="allLink" onClick={allLinkClickListener}>All</button>
-                <button className="tabs-links active" id="favesLink" onClick={favesLinkClickListener}>My faves</button>
+                <button className="tabs-links active" id="allLink" onClick={allLinkClickListener}>All</button>
+                <button className="tabs-links" id="favesLink" onClick={favesLinkClickListener}>My faves</button>
             </>
         )
     }

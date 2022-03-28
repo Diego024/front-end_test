@@ -13,7 +13,7 @@ const initialState = {
     news: [],
     savedNews: JSON.parse(window.localStorage.getItem("savedNews")),
     filter: window.localStorage.getItem('filter'),
-    currentOption: window.localStorage.getItem('currentOption')
+    currentOption: window.localStorage.getItem('currentOption') || 'all'
 }
 
 const store = createStore(reducer, initialState, composeEnhancers());
